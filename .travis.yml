@@ -1,0 +1,13 @@
+language: python
+python:
+  - "3.4"
+  - "3.5"
+  - "3.6"
+
+install:
+  - pip install .
+  - pip install flake8
+
+script:
+  - py.test tests/
+  - flake8 . --max-line-length 120 --ignore E402,E712,E731,E211 --select E,F
