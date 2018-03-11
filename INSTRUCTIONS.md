@@ -85,10 +85,11 @@ And launch the image:
 docker run -d -p 5000:5000 \
     -e "AWS_ACCESS_KEY_ID=<aws access key>" \
     -e "AWS_SECRET_ACCESS_KEY=<aws key secret>" \
-    -e "AWS_DEFAULT_REGION=us-west-2"
+    -e "AWS_DEFAULT_REGION=us-west-2" \
+    doctorapp
 ```
 
-However, it's easier and more secure to launch through docker-compose as this will not leave credential's in your
+However, it's easier and more secure to launch through docker-compose as this will not leave credentials in your
 shell's history file.
 
 In the root of the repository, copy `.env.example` to `.env` and modify it. It contains the environment vars mentioned

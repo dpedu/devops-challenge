@@ -46,9 +46,9 @@ design pattern, generally speaking, promotes code simplicity.
 ### The data source
 
 This application's database needs are rather simple - fetching a known static value - and as a result the data source
-layer did not need to be complex. It only needed to be a single importable method that, when called, returns the secret
-value fetched from DynamoDB. This also is an excellent location to implement caching - the secret value is static by
-design, which means we need not fetch it more than once.
+layer did not need to be complex. It only needed to be a single importable method that, when called, fetches the secret
+value from DynamoDB and returns it. This also is an excellent location to implement caching - the secret value is static
+by design, which means we need not fetch it more than once.
 
 The cache on this layer was implemented using python's builtin `lru_cache`.
 
@@ -61,8 +61,21 @@ Having the major components, next came some "glue code" to make our app run:
 - A signal listener to trigger graceful shutdowns
 - Logging settings
 - Passing configuration items around
+- Registering the data source function on the bus
 
 
 ### Testing
 
 As these components were finished, test were created for them as well.
+
+
+## Automated CI & Building
+
+The requirements want the application deployable via Docker, so creating a Dockerfile became the next step. For a base
+image, the Python org's published "light" images were an easy choice; they contain the python interpretor and related
+tools within a reasonably small image size. If I were to, for example, use a ubuntu image and install python + tools
+myself, it would have resulted in a larger image. Dockerizing this app was as simple as running the setuptool's setup.py
+installer under the docker image build process.
+
+Finally, all of this needed to be built by Travis CI. The .travis.yml was added and configures an environment where both
+python3.6 and docker was available. The coded is tested, linted, built into an image, and shipped off to the Docker Hub.
