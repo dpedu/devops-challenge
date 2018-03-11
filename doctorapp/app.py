@@ -3,6 +3,7 @@ import cherrypy
 import signal
 import logging
 import argparse
+import os
 from doctorapp.api import ApiV1
 from doctorapp.datasource import get_secret
 
@@ -13,9 +14,12 @@ def get_args(args):
     :return: #TODO what type is it
     """
     parser = argparse.ArgumentParser(description="doctorapp http server daemon")
-    parser.add_argument("-l", "--listen", default="0.0.0.0", help="listen address")
-    parser.add_argument("-p", "--port", default=5000, type=int, help="tcp port to listen on")
-    parser.add_argument("--debug", action="store_true", help="enable development options")
+    parser.add_argument("-l", "--listen", help="listen address",
+                        default=os.environ.get("DOCTORAPP_LISTEN", "0.0.0.0"))
+    parser.add_argument("-p", "--port", type=int, help="tcp port to listen on",
+                        default=int(os.environ.get("DOCTORAPP_PORT", 5000)))
+    parser.add_argument("--debug", action="store_true", help="enable development options",
+                        default=True if os.environ.get("DOCTORAPP_DEBUG") else False)
     return parser.parse_args(args)
 
 
@@ -29,6 +33,8 @@ def main():
     # Configure logging
     logging.basicConfig(format="%(asctime)-15s %(levelname)-8s %(filename)s:%(lineno)d %(message)s",
                         level=logging.INFO if args.debug else logging.WARNING)
+
+    logging.info(args)
 
     # Configure cherrypy webserver
     cherrypy.config.update({
