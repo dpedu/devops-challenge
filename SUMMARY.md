@@ -79,3 +79,15 @@ installer under the docker image build process.
 
 Finally, all of this needed to be built by Travis CI. The .travis.yml was added and configures an environment where both
 python3.6 and docker was available. The coded is tested, linted, built into an image, and shipped off to the Docker Hub.
+
+
+## AWS Cloudformation
+
+To be quite honest, this was the most interesting portion of this exercise! I do like container technology but I'll
+admit to never having previously using AWS ECS. So, already knowing other parts of AWS, it was interesting to see both
+how it was implemented on AWS's side, and the user - my - side.
+
+My template is largely based on
+[an example](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/quickref-ecs.html) provided in the AWS docs.
+This starting point had almost everything I needed; I ended up modifying what specific containers it launches and some
+params passed to them, as well as granting the ECS instances access to DynamoDB via their instance profile.
