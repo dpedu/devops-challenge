@@ -91,3 +91,7 @@ My template is largely based on
 [an example](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/quickref-ecs.html) provided in the AWS docs.
 This starting point had almost everything I needed; I ended up modifying what specific containers it launches and some
 params passed to them, as well as granting the ECS instances access to DynamoDB via their instance profile.
+
+My earlier use of Boto3 made using this new authorization strategy completely seamless. In the python code, we pass
+absolutely nothing when initializing a Boto session. Because of this, Boto searches for credentials available to it -
+environment vars, ~/.aws, and ec2 metadata are all checked.
