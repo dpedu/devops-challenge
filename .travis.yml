@@ -9,5 +9,5 @@ install:
   - pip install flake8
 
 script:
-  - py.test tests/
+  - py.test test/
   - flake8 . --max-line-length 120 --ignore E402,E712,E731,E211 --select E,F
