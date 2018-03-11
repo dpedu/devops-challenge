@@ -1,17 +1,25 @@
+sudo: required
+
+services:
+  - docker
+
 language: python
 python:
-  - "3.4"
-  - "3.5"
-  - "3.6"
-
+- '3.4'
+- '3.5'
+- '3.6'
 env:
+  matrix:
   - AWS_DEFAULT_REGION=us-east-1
-
+  global:
+  - secure: RwcvL1jh7t3V6mZZTLdGCWFPFgMensMCbPGChtrzvJZNR1IhIwnHsRCHbZGkhqSVZYQ9IeQzvVvG3LN2aSDUjn3d7/a1pZsOuqxYpygl1RhLYcxQWlAnOFW2pVGOacs/LNB9IECWvRS4Ec80HkH9NdfyKvqoIgaGGMop9Yvm4vDFO4H3hpfI8M6xgG0hgNanNIGSHovYlJuXhEjCBg8qK9JlDisOI9QutlTwLQ8PE4LlqMj3HrzcxPlTrE9A6TMc+1hUcnFQwki2c7Bngoz01NlthYhtkEJ3Yjm/6uIK4XPv79dEmsYCbH9sdSp+tP/4IjDLsTrnx6FaeHlGJAm+Ef52aAkvxVEM2ugSPPq4u7dNtVUKsmR2ywBojg/HJog8wVSwbuQq91Rocbx3ZE9napddCQKMuLy2nBNogwGRZyrCPxKbcCSwqjWijmLEfRPMci0RLWDMpUi4haj/lyAzo7cBu+MUXI0mR5uwjb6ukaLFQ55MOeSqp0K6XYQNaaaOuC+EluXNjFMqxXe+hpqu6n27UELFCQAbdiOd/L3Bp533PiIKqzqeWOKslG3k12LBif3uKQ/2zucaOOVm8bnNoxUhOvmD3FkazQ1EkPXfd7k2yCsG1YKc17tyLQyVGzcm4K+NpUxid7o2uuygWdfvn6vRdBsOr0vZiSYj67wcuQI=
+  - secure: eG9LbYRI+lI5NbQDrwS5LasgauW05L58/SRDUcDsBhxWx0DznbCWeUejf+O5+jtxZWKUJZlpAiGyqIG/2DN6Zz5nyptWTcNxXJO+BiWiiHir6Jdez3aujpVAgAOgx0YM48ir4DNFc0p5ut/t+lgMuUp5fZ0fd0Lcja3xSg628OE2HLXmd6N6MxpImJMZFJkTaFehmwKT2mjKrMRrKBB93K7u5C3ql13qR1C/C2BE1QqvSzcdYudTrCTYedPthALSi6O4s20h19w8r3UBhMTR5Jm1gXuQOt3JJqLoCD8/mKVByYAqiFvkO+rRzFaZp1C5RCdGrCysBAnQROs/82Hby80zCX1Qu8IfulG2GZp52DNIWlcqHgxf2qp2HMD5HnWirukflF6kLZAozowcHT0WmgGmQ4tvizm7YAHcZWwboV8W27JexpWA4c3Nwxd9SOAfkvRo1BATlEOlYjKZh0rOLZqmecLqikpIaRNRavv7LGOw4QyvMlE50OB3H3j3U6QlIY5F0ZIrjch+dmmSPc2eV7p6LxHYVZYVnZFinjphMKlNOnWI9lhLXPDQpSZSzdOzAk6PapA1l3+zDYltGbq5Z1W3dkHiG+b3qOUZBHsm2zFB8oUsqZ/wFzqfg3AM9Q2lWduozD8pydBn9218EqcGq3z6uiCtfjAJdQ1+EE4VU7k=
 install:
-  - pip install .
-  - pip install flake8
-
-
+- pip install .
+- pip install flake8
 script:
-  - py.test test/
-  - flake8 . --max-line-length 120 --ignore E402,E712,E731,E211 --select E,F
+- py.test test/
+- flake8 . --max-line-length 120 --ignore E402,E712,E731,E211 --select E,F
+- docker build -t dpedu/doctorapp .
+- docker login -u "$DOCKER_USERNAME" -p "foobar"
+- docker push dpedu/doctorapp
