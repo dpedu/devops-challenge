@@ -4,9 +4,13 @@ python:
   - "3.5"
   - "3.6"
 
+env:
+  - AWS_DEFAULT_REGION=us-east-1
+
 install:
   - pip install .
   - pip install flake8
+
 
 script:
   - py.test test/
