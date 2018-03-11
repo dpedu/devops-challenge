@@ -1,6 +1,6 @@
 import os
 import boto3
-
+from functools import lru_cache
 
 # Name of the dynamodb table to inspect
 database_name = os.environ.get("SECRET_DBNAME", "devops-challenge")
@@ -17,6 +17,7 @@ table = boto3.Session() \
     .Table(database_name)
 
 
+@lru_cache()
 def get_secret():
     """
     Query a dynamodb table for a row matching our codename. Return the secret value.
